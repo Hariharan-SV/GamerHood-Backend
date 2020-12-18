@@ -1,4 +1,4 @@
-from flask import Blueprint, request, session
+from flask import Blueprint, request, session, jsonify
 from gamerhood.services.user import getSessionDetails
 
 user = Blueprint('user', __name__, url_prefix="/user")
@@ -7,7 +7,7 @@ user = Blueprint('user', __name__, url_prefix="/user")
 def getMail():
   print(session)
   if('email' in session):
-    return session['email']
+    return jsonify(session['email'])
   else:
     return{"msg":"email not in session"}
 
@@ -15,10 +15,11 @@ def getMail():
 def getSession():
   print(session)
   if('data' in session):
-    return session['data']
+    return jsonify(session['data'])
   elif('email' in session):
     session['data'] = getSessionDetails(session['email'])
-    return session['data']
+    print("data returned is ",session)
+    return jsonify(session['data'])
   else:
     return{"msg":"email not in session"}
   
