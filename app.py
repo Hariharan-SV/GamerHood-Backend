@@ -1,5 +1,4 @@
-from flask import Flask, session
-from flask_session import Session
+from flask import Flask
 from flask_cors import CORS
 
 from gamerhood.controllers.auth import auth
@@ -7,7 +6,6 @@ from gamerhood.controllers.user import user
 from gamerhood.controllers.game import game
 
 app = Flask(__name__)
-sess = Session()
 CORS(app)
 
 # Register API routes
@@ -30,5 +28,4 @@ def hello_world():
 if __name__ == '__main__':
   app.secret_key = 'super secret key'
   app.config['SESSION_TYPE'] = 'filesystem'
-  sess.init_app(app)
-  app.run(debug=True)
+  app.run(debug=True,port=5500)
