@@ -6,7 +6,7 @@ from gamerhood.controllers.user import user
 from gamerhood.controllers.game import game
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"*": {"origins": "*"}})
 
 # Register API routes
 app.register_blueprint(auth)
