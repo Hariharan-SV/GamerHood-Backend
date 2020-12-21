@@ -2,7 +2,7 @@
 from pymongo import MongoClient
 import os
 
-def validateLogin(record:dict)->int:
+def validate_login(record:dict)->int:
   # Connect with the portnumber and host 
   client = MongoClient(os.environ.get('database_url')) 
   # Access database 
@@ -21,7 +21,7 @@ def validateLogin(record:dict)->int:
   val.pop('_id',None)
   return 1,val
 
-def validateRegister(record:dict)->int:
+def validate_register(record:dict)->int:
   # Connect with the portnumber and host 
   client = MongoClient(os.environ.get('database_url')) 
   # Access database 

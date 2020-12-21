@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask.helpers import make_response
-from gamerhood.services.auth import validateLogin, validateRegister
+from gamerhood.services.auth import validate_login, validate_register
 import jwt
 from datetime import datetime,timedelta
 import os
@@ -8,7 +8,7 @@ import os
 auth = Blueprint('auth', __name__, url_prefix="/auth")
 
 @auth.route('/session')
-def getSession():
+def get_session():
 	token = None
 	data = {"status": 0, "message": "Pending"}
 	if 'x-auth-token' in request.headers:
@@ -18,7 +18,9 @@ def getSession():
 	try:
 		data = jwt.decode(token, os.environ.get('key'))
 		data["status"] = 1
-	except:  # TODO : GET Type of error name when unable to decode
+	except jwt.ExpiredSignatureError:
+		return make_response(jsonify({"status": 0, "message": "Token is expired !!"}), 401)
+	except jwt.InvalidTokenError:
 		return make_response(jsonify({"status": 0, "message": "Token is invalid !!"}), 401)
 	return make_response(jsonify(data), 200)
 
@@ -28,7 +30,7 @@ def login():
 	result = 0
 	data = request.get_json()
 	try:
-		result, value = validateLogin(data) # TODO : Convert to snake_case
+		result, value = validate_login(data)
 	except KeyError:
 		return make_response({"status": 0, "message": "Keys mismatch"}, 400)
 	if result == 1:
@@ -49,14 +51,14 @@ def register():
 	data = request.get_json()
 	result = 0
 	try:
-		result = validateRegister(data) # TODO : Convert to snake_case
+		result = validate_register(data)
 	except KeyError:
 		return make_response({"status": 0, "message": "Keys mismatch"}, 200)
-	if result == 1: # TODO: Remove unnecessary condition brackets
+	if result == 1:
 		data.pop('password', None)
 		token = jwt.encode({
 			'userDetails': data,
-			'exp': datetime.now() + timedelta(days=3) # TODO Fix datetime import
+			'exp': datetime.now() + timedelta(days=3)
 		}, os.environ.get('key'))
 		return make_response({"status": 1, "message": "Account Created!", "token": token}, 200)
 	elif(result == -1):
