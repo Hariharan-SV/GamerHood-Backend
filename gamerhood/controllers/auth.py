@@ -16,7 +16,7 @@ def get_session():
 	if token is None:
 		return make_response(jsonify({"status": 0, "message": "Token is missing !!"}), 401)
 	try:
-		data = jwt.decode(token, os.environ.get('key'))
+		data = jwt.decode(token, os.environ.get('key'), algorithms=["HS256"])
 		data["status"] = 1
 	except jwt.ExpiredSignatureError:
 		return make_response(jsonify({"status": 0, "message": "Token is expired !!"}), 401)
@@ -39,7 +39,7 @@ def login():
 			'userDetails': value,
 			'exp': datetime.now() + timedelta(days=3)
 		}, os.environ.get('key'))
-		return make_response({"status": 1, "message": "Accepted", "token": token.decode('utf-8')}, 200)
+		return make_response({"status": 1, "message": "Accepted", "token": token}, 200)
 	elif(result == 0):
 		return make_response({"status": 0, "message": "Passwords mismatch !"}, 200)
 	else:

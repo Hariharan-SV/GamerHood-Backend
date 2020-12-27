@@ -11,7 +11,7 @@ def token_required(f):
       token = request.headers['x-auth-token']
     if token is not None:
       try:
-        jwt.decode(token, os.environ.get('key'))
+        jwt.decode(token, os.environ.get('key'), algorithms=["HS256"])
         authorized = True
       except jwt.ExpiredSignatureError or jwt.InvalidTokenError:
         authorized = False
