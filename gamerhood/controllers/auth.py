@@ -66,3 +66,5 @@ def register():
 		return make_response({"status": 0, "message": "Account creation failed !"}, 400)
 	else:
 		return make_response({"status": 0, "message": "Account with mentioned mail-id already exists !"}, 200)
+
+# decode function as reponse while in localhost else no decode

@@ -7,13 +7,14 @@ def token_required(f):
   def decorator(*args, **kwargs):
     token = None
     authorized = False
+    value = None
     if 'x-auth-token' in request.headers:
       token = request.headers['x-auth-token']
     if token is not None:
       try:
-        jwt.decode(token, os.environ.get('key'), algorithms=["HS256"])
+        value = jwt.decode(token, os.environ.get('key'), algorithms=["HS256"])
         authorized = True
       except jwt.ExpiredSignatureError or jwt.InvalidTokenError:
         authorized = False
-    return f(authorized,*args, **kwargs)            
+    return f(authorized,value,*args, **kwargs)            
   return decorator
