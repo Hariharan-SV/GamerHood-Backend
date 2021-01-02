@@ -56,11 +56,12 @@ def register():
 		return make_response({"status": 0, "message": "Keys mismatch"}, 200)
 	if result == 1:
 		data.pop('password', None)
+		data.pop('_id', None)
 		token = jwt.encode({
 			'userDetails': data,
 			'exp': datetime.now() + timedelta(days=3)
 		}, os.environ.get('key'))
-		return make_response({"status": 1, "message": "Account Created!", "token": token}, 200)
+		return make_response({"status": 1, "message": "Account Created!", "token": token.decode('utf-8')}, 200)
 	elif(result == -1):
 		return make_response({"status": 0, "message": "Account creation failed !"}, 400)
 	else:

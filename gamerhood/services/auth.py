@@ -32,7 +32,7 @@ def validate_register(record:dict)->int:
     if(count != 0):
       return 0
     else:
-      res = db.users.insert(record)
+      db.users.insert(record)
   except:
     return -1
   # return 1 for successful register
