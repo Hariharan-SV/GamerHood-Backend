@@ -7,7 +7,7 @@ def get_results_from_keyword(game: str) -> dict:
   db = client['steam_data']
   collection = db.game_data
   similar_results = collection.find({"url_info.url_name": re.compile(game, re.IGNORECASE)},
-   {'_id':0,'url_info.id': 1, 'url_info.type': 1, 'url_info.url_name': 1, 'url_info.url': 1})
+   {'_id':0,'url_info.id': 1, 'url_info.url_name': 1, 'url_info.url': 1,'full_desc.sort':1})
   similar_results = [i for i in similar_results]
   return similar_results
 
