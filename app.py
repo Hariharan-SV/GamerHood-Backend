@@ -28,4 +28,5 @@ def hello_world():
 if __name__ == '__main__':
   app.secret_key = 'super secret key'
   app.config['SESSION_TYPE'] = 'filesystem'
-  app.run(debug=False,port=5500)
+  app.config['CORS_HEADERS'] = 'Content-Type'
+  app.run(debug=True,port=5500)

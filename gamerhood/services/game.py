@@ -16,6 +16,8 @@ def get_game_from_id(game_id: str) -> dict:
   db = client['steam_data']
   collection = db.game_data
   game = collection.find_one({"url_info.id": game_id})
+  if game is not None:
+    game.pop("_id",None)
   return game
 
 """
