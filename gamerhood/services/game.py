@@ -2,7 +2,7 @@ from pymongo import MongoClient
 import os
 import re
 
-def get_results_from_keyword(game: str) -> dict:
+def get_results_from_keyword(game: str) -> list:
   client = MongoClient(os.environ.get('database_url'))
   db = client['steam_data']
   collection = db.game_data
