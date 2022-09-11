@@ -6,6 +6,7 @@ from gamerhood.controllers.user import user
 from gamerhood.controllers.game import game
 
 app = Flask(__name__)
+app.config['WTF_CSRF_ENABLED'] = True
 CORS(app)
 
 # Register API routes
