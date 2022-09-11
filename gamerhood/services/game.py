@@ -20,15 +20,9 @@ def get_game_from_id(game_id: str) -> dict:
     game.pop("_id",None)
   return game
 
-"""
 def checkNotReviewed(user_id: str, game_id: str) -> bool:
   client = MongoClient(os.environ.get('database_url'))
   db = client['steam_data']
   review = db.user_likes.find({"user_id": user_id, "user_data": {
     "$elemMatch": {"game_id": game_id}}})
-  print(review)
-  if(review is None):
-      return True
-  else:
-      return False
-"""
+  return review is None
