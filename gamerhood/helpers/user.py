@@ -13,7 +13,7 @@ def token_required(f):
       try:
         jwt.decode(token, os.environ.get('key'))
         authorized = True
-      except (jwt.ExpiredSignatureError,jwt.InvalidTokenError) as error:
+      except (jwt.ExpiredSignatureError,jwt.InvalidTokenError) as _:
         authorized = False
     return f(authorized,*args, **kwargs)            
   return decorator
